@@ -1,0 +1,59 @@
+snippet $
+$this->
+endsnippet
+
+snippet TODO "TODO Comment" b
+// TODO: ${1:Todo Item} | `!v strftime("%b %d, %Y")`
+endsnippet
+
+global !p
+def complete(t, opts):
+	if t:
+		opts = [ m[len(t):] for m in opts if m.startswith(t) ]
+	if len(opts) == 1:
+		return opts[0]
+	return "(" + '|'.join(opts) + ")"
+endglobal
+
+snippet f "PHP function" b
+$1`!p snip.rv = complete(t[1], ['public','private','protected'])` function $2($3)
+{
+	$4
+}
+endsnippet
+
+# 'Vip' to select block of code, then <tab>/**<tab><M-F3>
+snippet doc "PHP Doc"
+`!p
+try:
+	# FIXME: indent doesn't work when there is no indent
+	indent = re.search('^\s+', snip.v.text).group(0)
+	function_name = re.search('function[\s\n]+(\S+)[\s\n]*\(', snip.v.text).group(1)
+except AttributeError:
+	function_name = "Description"
+	indent = ""
+snip.rv = indent + "/**\n" + indent + " *\n" + indent + " * "
+`${1:`!p snip.rv = function_name`}
+`!p snip.rv = indent + " *"`
+`!p
+try:
+	params = re.search('function ' + function_name + '\((.+?)\)', snip.v.text).group(1)
+	params = re.sub('\s+', "", params) # Remove white space
+	params = re.sub('=("(.*?)"|\'(.*?)\')', "", params) # Delete the defaults - supports ' and "
+	param_array = params.split(",")
+	params = ""
+	newline = ""
+	for index, x in enumerate(param_array):
+		if index != 0:
+			newline = "\n"
+		params += newline + indent + " * @param " + x
+except AttributeError:
+	params = ""
+snip.rv = params`
+`!p 
+php_return = "@return"
+snip.rv = indent + " * "
+`${2:`!p snip.rv = php_return`}
+`!p snip.rv = indent + "*/"`
+`!p snip.rv = indent + snip.v.text.lstrip()`
+endsnippet

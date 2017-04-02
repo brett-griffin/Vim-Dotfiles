@@ -1,0 +1,9 @@
+snippet "= "vimrc Section Header" b
+"====[ $1 ]`!p
+s = "==============================================="
+n = len(t[1])
+if n != 0:
+	s = s[:-n] # remove 1 '=' for every letter in t[1]
+snip.rv = s
+`
+endsnippet
