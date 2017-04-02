@@ -1,13 +1,11 @@
 "====[ Project Configuration ]==========================
-cd ~/Desktop/App/
+cd ~/Desktop/Projects/
 let excludedir = "node_modules,vendor,PhoneGap,storage,dist,public"
 let includefiletypes = "php,js,vue,html,css"
 
-" TODO: Make separate projects so the local exec is set automatically or at least the cwd is
-" TODO: frontend / backend projects
 " Use local eslint (use .eslintrc.js to define 'standard' style and html plugin for .vue files)
 let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exec = "./Quasar/node_modules/.bin/eslint"
+let g:syntastic_javascript_eslint_exec = "./node_modules/.bin/eslint"
 " Set filetype to: vue.javascript specifically! So Vim-Vue can highlight and Syntastic can lint
 augroup vueFileType
     autocmd!
@@ -19,7 +17,6 @@ source ~/.vim/plugins.vim                               " Source plugins file
 let g:indentLine_char = '¦'                             " Character to use between start and end of code blocks
 set laststatus=2                                        " Display airline all the time
 let g:airline_theme='murmur'                            " Airline Colour Theme
-let g:pdv_template_dir = "~/.vim/pdv-snips"             " Custom PHP documentor snippets file
 
 set fileformat=unix                                     " Unix line endings only
 set fileformats=unix,mac,dos                            " Handle Mac and DOS line endings, new files get Unix endings
@@ -85,7 +82,6 @@ if exists("*mkdir")
     endif
 endif
 set backup
-set undofile
 set swapfile
 set backupdir=~/.vim_backup/backup//
 set directory=~/.vim_backup/swap//
@@ -164,11 +160,8 @@ augroup autoQuickFix
 augroup END
 
 " Use :CtrlPClearAllCache or F5 to refresh when you update custom ignore
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  'vendor$\|node_modules$\|PhoneGap$',
-  \ 'file': '',
-  \ 'link': '',
-  \ }
+let ctrlp_excludedir = substitute(excludedir, ",", '$\\|', "g")."$"
+execute "let g:ctrlp_custom_ignore = { 'dir': '".ctrlp_excludedir."', 'file': '', 'link': '', }"
 let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:30,results:30'
 let g:ctrlp_regexp_search = 1
 
