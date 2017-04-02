@@ -72,7 +72,6 @@ augroup END
 "           v v    v      v     v     v
 set viminfo=h,'500,<10000,s1000,/1000,:1000             " Store a lot of history information
 
-" TODO: Make the directories auto-create on new systems
 " No backup or swap files in project directories
 if exists("*mkdir")
     if !isdirectory($HOME."/.vim_backup/backup")
@@ -85,6 +84,9 @@ if exists("*mkdir")
         call mkdir($HOME."/.vim_backup/undo", "p")
     endif
 endif
+set backup
+set undofile
+set swapfile
 set backupdir=~/.vim_backup/backup//
 set directory=~/.vim_backup/swap//
 set undodir=~/.vim_backup/undo//
