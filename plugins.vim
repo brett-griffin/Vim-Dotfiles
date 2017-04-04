@@ -28,7 +28,7 @@ Plugin 'vim-syntastic/syntastic'            " Runs external linting applications
 
 " Web Development
 Plugin 'shawncplus/phpcomplete.vim'         " PHP auto-completion (With UltiSnips/YCM use the key combo: <C-space>)
-Plugin 'file:///home/g/Desktop/PHPDoc.vim'  " PHPDoc Blocks
+Plugin 'file:///home/g/Desktop/Projects/PHPDoc.vim'  " PHPDoc Blocks
 Plugin 'othree/html5.vim'                   " HTML 5 syntax support
 Plugin 'posva/vim-vue'                      " Vue syntax support
 Plugin 'ap/vim-css-color'                   " CSS color codes

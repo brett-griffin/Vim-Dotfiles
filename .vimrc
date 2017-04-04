@@ -31,7 +31,7 @@ set mouse=""                                            " Disable moving the cur
 let mapleader = "\<space>"                              " Leader key
 nnoremap <space> <nop>
 
-set updatetime=500                                      " Trigger CursorHold every Xms
+set updatetime=1000                                      " Trigger CursorHold every Xms
 " Auto reload/save files on window focus and after an inactive cursor for 'updatetime' (default 4000ms)
 " Also, auto SyntasticCheck
 augroup saveReloadFile
@@ -214,6 +214,9 @@ inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
+
+nnoremap <middleMouse> <nop>
+inoremap <middleMouse> <nop>
 
 nnoremap <leader>ev :e ~/.vim/.vimrc<cr>
 nnoremap <leader>ep :e ~/.vim/plugins.vim<cr>
