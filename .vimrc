@@ -3,6 +3,10 @@ cd ~/Desktop/Projects/
 let excludedir = "node_modules,vendor,PhoneGap,storage,dist,public"
 let includefiletypes = "php,js,vue,html,css"
 
+let mapleader = "\<space>"                              " Leader key
+nnoremap <space> <nop>
+nnoremap <leader>t :Vader PHPDocBlocks.vim/test/*<cr>
+
 " Use local eslint (use .eslintrc.js to define 'standard' style and html plugin for .vue files)
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = "./node_modules/.bin/eslint"
@@ -27,9 +31,6 @@ set backspace=indent,eol,start                          " Make backspace work li
 set shellslash                                          " Forward slashes for MS Windows
 set pastetoggle=<F2>                                    " Toggle raw paste
 set mouse=""                                            " Disable moving the cursor with the mouse
-
-let mapleader = "\<space>"                              " Leader key
-nnoremap <space> <nop>
 
 set updatetime=1000                                      " Trigger CursorHold every Xms
 " Auto reload/save files on window focus and after an inactive cursor for 'updatetime' (default 4000ms)
@@ -257,7 +258,7 @@ vnoremap <leader>y "+y
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
 
-nnoremap <leader>doc :call PHPDoc#insert()<cr>
+nnoremap <leader>doc :call phpdocblocks#insert()<cr>
 
 nnoremap <silent><leader>fix :silent !php-cs-fixer fix "%" --rules=@PSR2<cr>
 

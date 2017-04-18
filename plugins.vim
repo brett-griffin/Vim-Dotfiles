@@ -24,11 +24,12 @@ Plugin 'vim-airline/vim-airline-themes'     " All the Airline themes
 Plugin 'SirVer/ultisnips'                   " Powerful snippets (python required)
 Plugin 'Valloric/YouCompleteMe'             " Automated auto-completion (don't need to press <tab>)
 Plugin 'vim-syntastic/syntastic'            " Runs external linting applications and makes them available in Vim 
+Plugin 'junegunn/vader.vim'                 " Vimscript testing
 " Plugin for replace in files
 
 " Web Development
 Plugin 'shawncplus/phpcomplete.vim'         " PHP auto-completion (With UltiSnips/YCM use the key combo: <C-space>)
-Plugin 'file:///home/g/Desktop/Projects/PHPDoc.vim'  " PHPDoc Blocks
+Plugin 'file:///home/g/Desktop/Projects/PHPDocBlocks.vim'  " PHPDocBlocks
 Plugin 'othree/html5.vim'                   " HTML 5 syntax support
 Plugin 'posva/vim-vue'                      " Vue syntax support
 Plugin 'ap/vim-css-color'                   " CSS color codes
