@@ -1,11 +1,13 @@
 "====[ Project Configuration ]==========================
-cd ~/Desktop/Projects/
+cd ~/Desktop/Projects
 let excludedir = "node_modules,vendor,PhoneGap,storage,dist,public"
 let includefiletypes = "php,js,vue,html,css"
 
 let mapleader = "\<space>"                              " Leader key
 nnoremap <space> <nop>
 nnoremap <leader>t :Vader PHPDocBlocks.vim/test/*<cr>
+
+let g:phpdocblocks_return_void = 1
 
 " Use local eslint (use .eslintrc.js to define 'standard' style and html plugin for .vue files)
 let g:syntastic_javascript_checkers = ['eslint']
@@ -38,7 +40,8 @@ set updatetime=1000                                      " Trigger CursorHold ev
 augroup saveReloadFile
     autocmd!
     autocmd FocusGained,BufEnter * silent! !
-    autocmd CursorHold,CursorHoldI * silent! w | SyntasticCheck
+    "autocmd CursorHold,CursorHoldI * silent! w | SyntasticCheck
+    "autocmd CursorHold,CursorHoldI * silent! w
 augroup END
 
 " Keep sign column open so Syntastic doesn't keep indenting
@@ -172,8 +175,8 @@ nnoremap <leader>r :GFindReplace<space>
 
 "====[ Theme Settings ]=================================
 syntax enable                                           " Enable syntax highlighting
+let ayucolor = "mirage"                                  " Ayu Theme colors
 colorscheme ayu                                         " Set the color scheme
-let ayucolor = "dark"                                   " Ayu Theme colors
 
 set guifont=Ubuntu\ Mono\ 11                            " Set font and font size
 set guioptions-=l                                       " Remove always present left scroll bar
@@ -181,7 +184,7 @@ set guioptions-=L                                       " Remove split window le
 set guioptions-=r                                       " Remove always present right scroll bar
 set guioptions-=R                                       " Remove split window right scroll bar
 set guioptions-=T                                       " Removes the toolbar from gvim
-set guioptions-=M                                       " Removes the menubar from gvim
+set guioptions-=m                                       " Removes the menubar from gvim
 
 set number                                              " Line numbers
 set relativenumber                                      " Shows line numbers relative to the cursor
@@ -227,16 +230,15 @@ nnoremap <leader>esa :e ~/.vim/UltiSnips/all.snippets<cr>
 
 nnoremap <leader><bs> :nohlsearch<cr>
 nnoremap <leader>w :w<cr> :e<cr> :echo "Saved!"<cr>
+nnoremap <leader>qq :q<cr>
 
-nnoremap <cr> G
-nnoremap <bs> gg
 noremap <c-a> ggVG
-
-nnoremap <c-t> :NERDTreeToggle<cr>
 
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>or :CtrlPMRUFiles<cr>
 noremap <leader>o :CtrlP getcwd()<cr>
+
+nnoremap <leader>oo :NERDTreeToggle<cr>
 
 nnoremap <esc> :cclose<cr>
 nnoremap <c-j> :silent! cnext<cr>
@@ -258,11 +260,21 @@ vnoremap <leader>y "+y
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
 
-nnoremap <leader>doc :call phpdocblocks#insert()<cr>
+nnoremap <leader>doc :PHPDocBlocks<cr>
 
 nnoremap <silent><leader>fix :silent !php-cs-fixer fix "%" --rules=@PSR2<cr>
 
 nnoremap <leader>num :set relativenumber!<cr>
+
+nnoremap <leader>nt :tabnew<cr>
+
+nnoremap <leader>wr <c-w>r<cr>
+nnoremap <leader>wv <c-w>v<cr>
+nnoremap <leader>ws <c-w>s<cr>
+nnoremap <leader>wh <c-w>h<cr>
+nnoremap <leader>wj <c-w>j<cr>
+nnoremap <leader>wk <c-w>k<cr>
+nnoremap <leader>wl <c-w>l<cr>
 
 "====[ Auto Commands ]==================================
 " Auto source the vimrc and plugins.vim when saved
