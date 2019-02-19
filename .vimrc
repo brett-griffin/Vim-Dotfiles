@@ -7,7 +7,10 @@ let mapleader = "\<space>"                              " Leader key
 nnoremap <space> <nop>
 nnoremap <leader>t :Vader PHPDocBlocks.vim/test/*<cr>
 
+let g:closetag_filenames = '*.html,*.xhtml,*.php'
+let NERDTreeShowHidden = 1
 let g:phpdocblocks_return_void = 1
+let g:phpdocblocks_abbreviate_types = 1
 
 " Use local eslint (use .eslintrc.js to define 'standard' style and html plugin for .vue files)
 let g:syntastic_javascript_checkers = ['eslint']
@@ -134,6 +137,7 @@ set shiftwidth=4                                        " Indent/outdent by four
 set expandtab                                           " Convert all tabs that are typed into spaces
 set shiftround                                          " Always indent/outdent to nearest tabstop
 set smarttab                                            " Shiftwidths at left margin, tabstops everywhere else
+set autoindent                                          " Auto-indent when you press enter
 augroup tabstops
     autocmd!
     autocmd BufRead,BufNewFile *.js,*.vue,*.html setlocal shiftwidth=2 tabstop=2
@@ -219,6 +223,25 @@ inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
 
+"smart indent when entering insert mode with i on empty lines
+function! IndentWithI()
+    if len(getline('.')) == 0
+        return "ddko"
+    else
+        return "i"
+    endif
+endfunction
+nnoremap <expr> i IndentWithI()
+
+nnoremap o o<esc>
+nnoremap O O<esc>
+nnoremap yy 0y$
+nnoremap x "_x
+nnoremap dd "_dd
+nnoremap d "_d
+nnoremap D "_D
+vnoremap d "_d
+
 nnoremap <middleMouse> <nop>
 inoremap <middleMouse> <nop>
 
@@ -257,16 +280,13 @@ nnoremap <leader>y "+y
 nnoremap <leader>yy "+y
 vnoremap <leader>y "+y
 
-nnoremap <leader>d "_d
-vnoremap <leader>d "_d
-
-nnoremap <leader>doc :PHPDocBlocks<cr>
+nnoremap <leader>pd :PHPDocBlocks<cr>
 
 nnoremap <silent><leader>fix :silent !php-cs-fixer fix "%" --rules=@PSR2<cr>
 
 nnoremap <leader>num :set relativenumber!<cr>
 
-nnoremap <leader>nt :tabnew<cr>
+nnoremap <leader>tn :tabnew<cr>
 
 nnoremap <leader>wr <c-w>r<cr>
 nnoremap <leader>wv <c-w>v<cr>
@@ -277,6 +297,9 @@ nnoremap <leader>wk <c-w>k<cr>
 nnoremap <leader>wl <c-w>l<cr>
 
 "====[ Auto Commands ]==================================
+" Auto-indent for all files
+autocmd BufReadPost * setlocal autoindent
+
 " Auto source the vimrc and plugins.vim when saved
 augroup autoSourceVimFiles
     autocmd!

@@ -28,6 +28,7 @@ Plugin 'junegunn/vader.vim'                 " Vimscript testing
 " Plugin for replace in files
 
 " Web Development
+Plugin 'alvan/vim-closetag'                 " Auto-close HTML tags
 Plugin 'shawncplus/phpcomplete.vim'         " PHP auto-completion (With UltiSnips/YCM use the key combo: <C-space>)
 Plugin 'file:///home/g/Desktop/Projects/PHPDocBlocks.vim'  " PHPDocBlocks
 Plugin 'othree/html5.vim'                   " HTML 5 syntax support

@@ -15,6 +15,39 @@ def complete(t, opts):
 	return "(" + '|'.join(opts) + ")"
 endglobal
 
+snippet html "basic html page" b
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$1</title>
+</head>
+<body>
+	$2
+</body>
+</html>
+endsnippet
+
+snippet pubf "public PHP function" b
+public function $1($2)
+{
+	$3
+}
+endsnippet
+
+snippet prif "private PHP function" b
+private function $1($2)
+{
+	$3
+}
+endsnippet
+
+snippet prof "protected PHP function" b
+protected function $1($2)
+{
+	$3
+}
+endsnippet
+
 snippet f "PHP function" b
 $1`!p snip.rv = complete(t[1], ['public','private','protected'])` function $2($3)
 {
