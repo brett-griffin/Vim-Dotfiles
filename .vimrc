@@ -36,6 +36,7 @@ set backspace=indent,eol,start                          " Make backspace work li
 set shellslash                                          " Forward slashes for MS Windows
 set pastetoggle=<F2>                                    " Toggle raw paste
 set mouse=""                                            " Disable moving the cursor with the mouse
+set autowrite                                           " Automatically write buffer on exit
 
 set updatetime=1000                                      " Trigger CursorHold every Xms
 " Auto reload/save files on window focus and after an inactive cursor for 'updatetime' (default 4000ms)
@@ -223,19 +224,18 @@ inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
 
-"smart indent when entering insert mode with i on empty lines
-function! IndentWithI()
-    if len(getline('.')) == 0
-        return "ddko"
-    else
-        return "i"
-    endif
-endfunction
-nnoremap <expr> i IndentWithI()
+nnoremap i :call IndentWhenLineEmpty()<cr>
 
+" Remap c to 'cut'
+nnoremap cc ""dd
+nnoremap c ""d
+vnoremap c ""d
+
+" Do not go into insert mode after opening a line
 nnoremap o o<esc>
 nnoremap O O<esc>
-nnoremap yy 0y$
+
+" Place deletes into the blackhole register
 nnoremap x "_x
 nnoremap dd "_dd
 nnoremap d "_d
@@ -257,18 +257,16 @@ nnoremap <leader>qq :q<cr>
 
 noremap <c-a> ggVG
 
-nnoremap <leader>b :CtrlPBuffer<cr>
-nnoremap <leader>or :CtrlPMRUFiles<cr>
-noremap <leader>o :CtrlP getcwd()<cr>
-
-nnoremap <leader>oo :NERDTreeToggle<cr>
+nnoremap <leader>nt :NERDTreeToggle<cr>
 
 nnoremap <esc> :cclose<cr>
 nnoremap <c-j> :silent! cnext<cr>
 nnoremap <c-k> :silent! cprevious<cr>
 
-nnoremap <c-n> :bnext<cr>
-nnoremap <c-p> :bprevious<cr>
+"nnoremap <leader>bp :CtrlPBuffer<cr>
+"nnoremap <leader>r :CtrlPMRUFiles<cr>
+noremap <leader>o :CtrlP getcwd()<cr>
+nnoremap <leader>b :bnext<cr>
 nnoremap <leader><leader> :b#<cr>
 
 nnoremap <s-tab> <<
@@ -313,6 +311,70 @@ augroup autoSourceVimFiles
     endfunction
 augroup END
 
+"====[ Functions ]=====================================
+" Smart indent when entering insert mode with i on empty lines
+" Takes indent from last line with text on it (excluding whitespace)
+" NOTE: Could be made a lot better, but works well enough for now
+function! IndentWhenLineEmpty()
+
+    " If line only has whitespace, delete it so we can put the correct indentation
+    if matchstr(getline('.'), '\v^\s+$') != ""
+        call setline(line('.'), "")
+    endif
+
+    " Add indent to empty lines only
+    if len(getline('.')) == 0
+
+        let l:i = -1
+        while line('.')+l:i > 0 && (len(getline(line('.')+l:i)) == 0 || matchstr(getline(line('.')+l:i), '\v^\s*$') != "")
+            let l:i -= 1
+        endwhile
+
+        let l:indent = matchstr(getline(line('.')+l:i), '\v^\s*')
+
+        let l:line = getline(line('.')+l:i)
+        " Determine if the cursor is at the start of a block
+        let l:blockCount = 0
+        let l:chars = split(l:line, '\zs')
+        for l:char in l:chars
+            if l:char == "{" || l:char == "[" || l:char == "("
+                let l:blockCount += 1
+            elseif l:char == "}" || l:char == "]" || l:char == ")"
+                let l:blockCount -= 1
+            endif
+        endfor
+
+        " If a closing HTML block (</div><div>) on the same line, it will not indent correctly)
+        let l:voidHTMLElements = matchstr(l:line, '\v\<%(!DOCTYPE|html|area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)+%( |\>)+')
+        let l:openingHTMLTagCount = len(split(l:line, '\v\<[^/].{-}\>', 1))-1
+        let l:closingHTMLTagCount = len(split(l:line, '\v\<\/[^>]+\>', 1))-1
+        let l:openingBlocks = ""
+
+        if &filetype == "vim"
+            let l:openingBlocks = matchstr(l:line, '\v^\s*%(function|if|elseif|else|while|for|augroup)')
+        elseif &filetype == "blade"
+            let l:openingBlocks = matchstr(l:line, '\v^\s*%(\@section\s*\([^,]+\)|\@slot|\@component|\@if|\@elseif|\@else|\@unless|\@isset|\@empty|\@auth|\@guest|\@hasSection|\@switch|\@case|\@for|\@foreach|\@forelse|\@while|\@php|\@push|\@prepend)')
+        endif
+
+        if l:blockCount > 0 || (l:openingHTMLTagCount > l:closingHTMLTagCount && l:voidHTMLElements == "" && &filetype != "vim") || l:openingBlocks != ""
+            let l:x = 0
+            while l:x < &tabstop
+                let l:indent .= " "
+                let l:x += 1
+            endwhile
+        endif
+
+        call setline(line('.'), l:indent)
+        call cursor('.', len(l:indent))
+        execute 'startinsert!'
+
+    else
+
+        execute 'startinsert'
+
+    endif
+
+endfunction
 "====[ Notes ]==========================================
 " Universal ctags for linux:
 " git clone https://github.com/universal-ctags/ctags

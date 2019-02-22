@@ -22,6 +22,7 @@ Plugin 'ervandew/supertab'                  " Make <tab> handle many tasks such 
 Plugin 'vim-airline/vim-airline'            " Airline status bar
 Plugin 'vim-airline/vim-airline-themes'     " All the Airline themes
 Plugin 'SirVer/ultisnips'                   " Powerful snippets (python required)
+Plugin 'honza/vim-snippets'                 " Snippets used by ultisnips
 Plugin 'Valloric/YouCompleteMe'             " Automated auto-completion (don't need to press <tab>)
 Plugin 'vim-syntastic/syntastic'            " Runs external linting applications and makes them available in Vim 
 Plugin 'junegunn/vader.vim'                 " Vimscript testing
@@ -34,6 +35,7 @@ Plugin 'file:///home/g/Desktop/Projects/PHPDocBlocks.vim'  " PHPDocBlocks
 Plugin 'othree/html5.vim'                   " HTML 5 syntax support
 Plugin 'posva/vim-vue'                      " Vue syntax support
 Plugin 'ap/vim-css-color'                   " CSS color codes
+Plugin 'jwalton512/vim-blade'               " Blade syntax support
 
 call vundle#end()            " required
 filetype plugin indent on    " required
